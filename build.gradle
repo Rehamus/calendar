@@ -23,6 +23,10 @@ repositories {
 
 dependencies {
 
+    //Apache Commons
+    implementation 'commons-fileupload:commons-fileupload:1.3.1'
+    implementation 'commons-io:commons-io:2.4'
+    //Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
     // JPA 설정
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
