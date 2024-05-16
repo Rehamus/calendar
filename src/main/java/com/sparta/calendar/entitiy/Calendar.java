@@ -15,7 +15,7 @@ public class Calendar extends DayStamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "todo",unique = true, nullable = false)
+    @Column(name = "todo", nullable = false)
     private String todo;
     @Column(name = "title", nullable = false)
     private String title;
@@ -35,10 +35,8 @@ public class Calendar extends DayStamp {
     }
 
     public void update(CalendarRequestDto requestDto) {
-        this.todo = requestDto.getTodo();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
         this.manager = requestDto.getManager();
-        this.password = requestDto.getPassword();
     }
 }

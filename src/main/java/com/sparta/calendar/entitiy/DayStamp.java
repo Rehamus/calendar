@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
@@ -13,6 +13,7 @@ import java.time.LocalDate;
 public abstract class DayStamp {
     @CreatedDate
     @Column(updatable = false)
-    @Temporal( TemporalType.DATE )
-    private LocalDate created;
+    @Temporal( TemporalType.TIMESTAMP )
+    private LocalDateTime created;
 }
+

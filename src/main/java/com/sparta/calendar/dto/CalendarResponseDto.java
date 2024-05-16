@@ -1,10 +1,9 @@
 package com.sparta.calendar.dto;
 
 import com.sparta.calendar.entitiy.Calendar;
-import com.sparta.calendar.entitiy.DayStamp;
 import lombok.Getter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 public class CalendarResponseDto {
@@ -13,8 +12,7 @@ public class CalendarResponseDto {
     private String title;
     private String contents;
     private String manager;
-    private String password;
-    private LocalDate created;
+    private LocalDateTime created;
 
 
     public CalendarResponseDto(Calendar saveCalendar) {
@@ -23,7 +21,7 @@ public class CalendarResponseDto {
         this.title = saveCalendar.getTitle();
         this.contents = saveCalendar.getContents();
         this.manager = saveCalendar.getManager();
-        this.password = saveCalendar.getPassword();
         this.created = saveCalendar.getCreated();
     }
+
 }

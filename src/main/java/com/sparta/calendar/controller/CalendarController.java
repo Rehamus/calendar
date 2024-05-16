@@ -28,13 +28,20 @@ public class CalendarController {
         return calendarService.getCalendar();
     }
 
-    @PutMapping("days/{id}")
-    public Long updateCalendar(@PathVariable Long id, @RequestBody CalendarRequestDto requestDto) {
-        return calendarService.updateCalendar(id, requestDto);
+    @GetMapping("days/{todo}")
+    public List<CalendarResponseDto> getTodo(@PathVariable String todo) {
+        return calendarService.getTodo(todo);
     }
 
-    @DeleteMapping("days/{id}")
-    public Long deleteCalendar(@PathVariable Long id) {
-        return calendarService.deleteCalendar(id);
+    @PutMapping("days/{todo}/{password}")
+    public String updateCalendar(@PathVariable String todo, @PathVariable String password, @RequestBody CalendarRequestDto requestDto) {
+        return calendarService.updateCalendar(todo, password ,requestDto);
     }
+
+    @DeleteMapping("days/{todo}/{password}")
+    public String deleteCalendar(@PathVariable String todo, @PathVariable String password) {
+        return calendarService.deleteCalendar(todo,password);
+    }
+
+
 }

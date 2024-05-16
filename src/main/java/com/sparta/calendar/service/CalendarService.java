@@ -17,47 +17,52 @@ public class CalendarService {
         this.calendarRepository = calendarRepository;
     }
 
+    // 생성
     public CalendarResponseDto createCalendar(CalendarRequestDto requestDto) {
-        // RequestDto -> Entity
+
         Calendar calendar = new Calendar( requestDto);
-
-        // DB 저장
         Calendar saveCalendar = calendarRepository.save(calendar);
-
-        // Entity -> ResponseDto
         CalendarResponseDto calendarResponseDto = new CalendarResponseDto(saveCalendar);
-
         return calendarResponseDto;
     }
+
+    // 전채확인
     public List<CalendarResponseDto> getCalendar() {
-        // DB 조회
-        return calendarRepository.findAll().stream().map(CalendarResponseDto::new).toList();
+        return calendarRepository.findAllByOrderByCreatedDesc().stream()
+                .map(CalendarResponseDto::new).toList();
     }
 
+    // 수정
     @Transactional
-    public Long updateCalendar(Long id, CalendarRequestDto requestDto) {
-        // 해당 메모가 DB에 존재하는지 확인
-        Calendar calendar = findCalendar(id);
+    public String updateCalendar(String todo, String password ,CalendarRequestDto requestDto) {
+        Calendar calendar = calendarRepository.findByTodo(todo);
 
-        // memo 내용 수정
-        calendar.update(requestDto);
-
-        return id;
+        if(calendar.getPassword().equals(password)) {
+            calendar.update(requestDto);
+        }else{
+            System.out.println("비번아님");
+        }
+        return todo;
     }
 
-    public Long deleteCalendar(Long id) {
-        // 해당 메모가 DB에 존재하는지 확인
-        Calendar calendar = findCalendar(id);
+    //삭제
+    public String deleteCalendar(String todo ,String password) {
+        Calendar calendar = calendarRepository.findByTodo(todo);
 
-        // memo 삭제
-        calendarRepository.delete(calendar);
-
-        return id;
+        if(calendar.getPassword().equals(password)) {
+            calendarRepository.delete(calendar);
+        }else{
+            System.out.println("비번아님");
+        }
+        return todo;
     }
 
-    private Calendar findCalendar(Long id) {
-        return calendarRepository.findById(id).orElseThrow(() ->
-                                                               new IllegalArgumentException("선택한 메모는 존재하지 않습니다.")
-        );
+    // 일정 확인
+    public List<CalendarResponseDto> getTodo(String todo) {
+        return calendarRepository.findAll().stream()
+                .filter( C -> C.getTodo().equals(todo) )
+                .map(CalendarResponseDto::new).toList();
     }
+
+
 }
