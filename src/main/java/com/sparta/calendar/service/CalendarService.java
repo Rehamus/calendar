@@ -20,7 +20,7 @@ public class CalendarService {
     // 생성
     public CalendarResponseDto createCalendar(CalendarRequestDto requestDto) {
 
-        Calendar calendar = new Calendar( requestDto);
+        Calendar calendar = new Calendar(requestDto);
         Calendar saveCalendar = calendarRepository.save(calendar);
         CalendarResponseDto calendarResponseDto = new CalendarResponseDto(saveCalendar);
         return calendarResponseDto;
@@ -34,27 +34,27 @@ public class CalendarService {
 
     // 수정
     @Transactional
-    public String updateCalendar(String todo, String password ,CalendarRequestDto requestDto) {
-        Calendar calendar = calendarRepository.findByTodo(todo);
+    public String updateCalendar(String todo, String password ,CalendarRequestDto requestDto){
+        Calendar calendar = findCalendarTodo(todo);
 
         if(calendar.getPassword().equals(password)) {
             calendar.update(requestDto);
+            return todo;
         }else{
-            System.out.println("비번아님");
+            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
-        return todo;
     }
 
     //삭제
-    public String deleteCalendar(String todo ,String password) {
-        Calendar calendar = calendarRepository.findByTodo(todo);
+    public String deleteCalendar(String todo ,String password){
+        Calendar calendar = findCalendarTodo(todo);
 
         if(calendar.getPassword().equals(password)) {
             calendarRepository.delete(calendar);
+            return todo;
         }else{
-            System.out.println("비번아님");
+            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
-        return todo;
     }
 
     // 일정 확인
@@ -64,5 +64,15 @@ public class CalendarService {
                 .map(CalendarResponseDto::new).toList();
     }
 
+
+    // 일정찾기
+    private Calendar findCalendarTodo(String todo) {
+        Calendar calendar = calendarRepository.findByTodo(todo);
+        if (calendar == null) {
+            throw new IllegalArgumentException( todo + "라는 일정은 없습니다.");
+        }
+        return calendar;
+
+    }
 
 }

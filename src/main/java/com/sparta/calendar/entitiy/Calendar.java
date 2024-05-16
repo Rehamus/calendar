@@ -2,6 +2,7 @@ package com.sparta.calendar.entitiy;
 
 import com.sparta.calendar.dto.CalendarRequestDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,14 +16,19 @@ public class Calendar extends DayStamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "todo", nullable = false)
+    @Column(name = "todo",unique = true, nullable = false)
     private String todo;
-    @Column(name = "title", nullable = false)
+
+    @Column(name = "title", nullable = false, length = 200)
     private String title;
-    @Column(name = "contents", nullable = false)
+
+    @Column(name = "contents", nullable = false , length = 500)
     private String contents;
+
     @Column(name = "manager", nullable = false)
+    @Email(message = "올바른 이메일형식이 아닙니다.")
     private String manager;
+
     @Column(name = "password", nullable = false)
     private String password;
 
