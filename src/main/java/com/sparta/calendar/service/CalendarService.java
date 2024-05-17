@@ -11,19 +11,30 @@ import java.util.List;
 
 @Service
 public class CalendarService {
+
+
+
     private final CalendarRepository calendarRepository;
 
     public CalendarService(CalendarRepository calendarRepository) {
         this.calendarRepository = calendarRepository;
+
+
     }
+
 
     // 생성
     public CalendarResponseDto createCalendar(CalendarRequestDto requestDto) {
 
+        String email ="^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
         Calendar calendar = new Calendar(requestDto);
-        Calendar saveCalendar = calendarRepository.save(calendar);
-        CalendarResponseDto calendarResponseDto = new CalendarResponseDto(saveCalendar);
-        return calendarResponseDto;
+        if(requestDto.getManager().matches(email)) {
+            Calendar saveCalendar = calendarRepository.save(calendar);
+            CalendarResponseDto calendarResponseDto = new CalendarResponseDto(saveCalendar);
+            return calendarResponseDto;
+        }else{
+            throw new IllegalArgumentException("담당자가 이메일 형식이 아닙니다.");
+        }
     }
 
     // 전채확인

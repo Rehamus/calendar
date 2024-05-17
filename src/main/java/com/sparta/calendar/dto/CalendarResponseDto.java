@@ -24,4 +24,7 @@ public class CalendarResponseDto {
         this.created = saveCalendar.getCreated();
     }
 
+    public CalendarResponseDto() {
+
+    }
 }
