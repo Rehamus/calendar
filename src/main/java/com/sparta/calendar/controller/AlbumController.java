@@ -21,10 +21,7 @@ public class AlbumController {
         this.albumService = albumService;
     }
 
-    @GetMapping("/upload")
-    public void form() {}
-
-    @PostMapping("/upload_ok")
+    @PostMapping("/upload")
     public String upload(@RequestParam("file") MultipartFile file) {
         String uploadFolder = "D:\\DD\\stude\\Java\\F_rank";
         String filePath = albumService.uploadFile(file, uploadFolder);

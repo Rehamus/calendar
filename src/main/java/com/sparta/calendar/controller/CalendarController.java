@@ -48,7 +48,7 @@ public class CalendarController {
     }
 
     @GetMapping("days/{todo}")
-    @Operation(summary = "특정 일정 생성")
+    @Operation(summary = "특정 일정 조회")
     public List<CalendarResponseDto> getTodo(@PathVariable String todo) {
         return calendarService.getTodo(todo);
     }

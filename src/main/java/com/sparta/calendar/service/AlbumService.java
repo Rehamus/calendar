@@ -9,6 +9,7 @@ import java.util.UUID;
 @Service
 public class AlbumService {
 
+    //파일 업로드
     public String uploadFile(MultipartFile file, String uploadFolder) {
         String fileimage = file.getContentType();
         if (!fileimage.contains("image")) {
@@ -19,18 +20,21 @@ public class AlbumService {
 
         String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
 
+        // 난수 생성
         UUID uuid = UUID.randomUUID();
         String[] uuids = uuid.toString().split("-");
         String uniqueName = uuids[0];
 
+        // 파일 등록
         File saveFile = new File(uploadFolder + "\\" + uniqueName + fileExtension);
 
         try {
             file.transferTo(saveFile);
         } catch (IOException e) {
             e.printStackTrace();
-            return null; // 업로드 실패시 null 반환
+            throw new IllegalArgumentException("저장에 실패했습니다.");
         }
-        return saveFile.getAbsolutePath(); // 파일의 저장 경로 반환
+        // 지정위치에 파일저장
+        return saveFile.getAbsolutePath();
     }
 }
