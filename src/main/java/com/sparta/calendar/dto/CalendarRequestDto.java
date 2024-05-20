@@ -1,13 +1,15 @@
 package com.sparta.calendar.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 
+
 @Getter
+@AllArgsConstructor
 public class CalendarRequestDto {
     @NotBlank
     @Size(min = 1, max = 200)

@@ -3,6 +3,7 @@ package com.sparta.calendar.entitiy;
 import com.sparta.calendar.dto.CalendarRequestDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "calendar")
 @NoArgsConstructor
+@AllArgsConstructor
 public class Calendar extends DayStamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

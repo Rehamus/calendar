@@ -56,7 +56,7 @@ public class CalendarController {
             @Parameter(name = "manager",description = "담당자"),
             @Parameter(name = "password",description = "비밀번호"),
     })
-    public String updateCalendar(@PathVariable String todo, @RequestBody CalendarRequestDto requestDto) throws IllegalAccessException {
+    public String updateCalendar(@PathVariable String todo, @RequestBody CalendarRequestDto requestDto) {
         return calendarService.updateCalendar(todo,requestDto);
     }
 
@@ -65,7 +65,7 @@ public class CalendarController {
     @Parameters({
             @Parameter(name = "password",description = "비밀번호"),
     })
-    public String deleteCalendar(@PathVariable String todo, @RequestBody Map<String,String> password) throws IllegalAccessException {
+    public String deleteCalendar(@PathVariable String todo, @RequestBody Map<String,String> password){
         return calendarService.deleteCalendar(todo,password.get( "password" ));
     }
 

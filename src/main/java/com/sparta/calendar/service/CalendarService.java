@@ -31,8 +31,7 @@ public class CalendarService {
         Calendar calendar = new Calendar(requestDto);
         if(requestDto.getManager().matches(email)) {
             Calendar saveCalendar = calendarRepository.save(calendar);
-            CalendarResponseDto calendarResponseDto = new CalendarResponseDto(saveCalendar);
-            return calendarResponseDto;
+            return new CalendarResponseDto( saveCalendar);
         }else{
             throw new IllegalArgumentException("담당자가 이메일 형식이 아닙니다.");
         }
@@ -72,8 +71,7 @@ public class CalendarService {
 
     // 일정 확인
     public List<CalendarResponseDto> getTodo(String todo) {
-        Calendar calendar = findCalendarTodo(todo);
-
+        findCalendarTodo(todo);
         return calendarRepository.findAll().stream()
                 .filter( C -> C.getTodo().equals(todo) )
                 .map(CalendarResponseDto::new).toList();
