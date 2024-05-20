@@ -56,7 +56,7 @@
 //
 //        mockMvc.perform(post("/api/days")
 //                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content("{\"todo\":\"치킨\",\"title\":\"허니콤보\",\"contents\":\"35000원\",\"manager\":\"korea@chicken.com\",\"password\":\"1234\"}"))
+//                                .content("{\
 //                .andExpect(status().isOk())
 //                .andExpect(content().json("{}"));
 //
