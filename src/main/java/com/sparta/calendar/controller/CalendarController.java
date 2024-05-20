@@ -7,17 +7,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 @RestController
-@Controller
 @RequestMapping("/api/")
 public class CalendarController {
     private final CalendarService calendarService;
@@ -53,30 +48,25 @@ public class CalendarController {
         return calendarService.getTodo(todo);
     }
 
-    @PutMapping("days/{todo}/{password}")
+    @PutMapping("days/{todo}")
     @Operation(summary = "일정 수정")
     @Parameters({
             @Parameter(name = "title",description = "일정 제목"),
             @Parameter(name = "contents",description = "일정 내용"),
             @Parameter(name = "manager",description = "담당자"),
+            @Parameter(name = "password",description = "비밀번호"),
     })
-    public String updateCalendar(@PathVariable String todo, @PathVariable String password, @RequestBody CalendarRequestDto requestDto) throws IllegalAccessException {
-        return calendarService.updateCalendar(todo, password ,requestDto);
+    public String updateCalendar(@PathVariable String todo, @RequestBody CalendarRequestDto requestDto) throws IllegalAccessException {
+        return calendarService.updateCalendar(todo,requestDto);
     }
 
     @Operation(summary = "일정 삭제")
-    @DeleteMapping("days/{todo}/{password}")
-    public String deleteCalendar(@PathVariable String todo, @PathVariable String password) throws IllegalAccessException {
-        return calendarService.deleteCalendar(todo,password);
+    @DeleteMapping("days/{todo}")
+    @Parameters({
+            @Parameter(name = "password",description = "비밀번호"),
+    })
+    public String deleteCalendar(@PathVariable String todo, @RequestBody Map<String,String> password) throws IllegalAccessException {
+        return calendarService.deleteCalendar(todo,password.get( "password" ));
     }
 
-    @ExceptionHandler
-    private ResponseEntity<String> handleException(IllegalArgumentException e) {
-        return new ResponseEntity<>( e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<String> handleException(MethodArgumentNotValidException e) {
-        return new ResponseEntity<>( Objects.requireNonNull( e.getFieldError()).getDefaultMessage(), HttpStatus.BAD_REQUEST);
-    }
 }

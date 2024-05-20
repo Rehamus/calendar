@@ -24,6 +24,7 @@ public class CalendarService {
 
 
     // 생성
+    @Transactional
     public CalendarResponseDto createCalendar(CalendarRequestDto requestDto) {
 
         String email ="^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
@@ -45,10 +46,10 @@ public class CalendarService {
 
     // 수정
     @Transactional
-    public String updateCalendar(String todo, String password ,CalendarRequestDto requestDto){
+    public String updateCalendar(String todo,CalendarRequestDto requestDto){
         Calendar calendar = findCalendarTodo(todo);
 
-        if(calendar.getPassword().equals(password)) {
+        if(requestDto.getPassword().equals(calendar.getPassword())) {
             calendar.update(requestDto);
             return todo;
         }else{
@@ -57,6 +58,7 @@ public class CalendarService {
     }
 
     //삭제
+    @Transactional
     public String deleteCalendar(String todo ,String password){
         Calendar calendar = findCalendarTodo(todo);
 
@@ -70,6 +72,8 @@ public class CalendarService {
 
     // 일정 확인
     public List<CalendarResponseDto> getTodo(String todo) {
+        Calendar calendar = findCalendarTodo(todo);
+
         return calendarRepository.findAll().stream()
                 .filter( C -> C.getTodo().equals(todo) )
                 .map(CalendarResponseDto::new).toList();

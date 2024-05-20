@@ -31,13 +31,5 @@ public class AlbumController {
             return "Failed to upload file.";
         }
     }
-    @ExceptionHandler
-    private ResponseEntity<String> handleException(IllegalArgumentException e) {
-        return new ResponseEntity<>( e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
 
-    @ExceptionHandler
-    private ResponseEntity<String> handleException(MethodArgumentNotValidException e) {
-        return new ResponseEntity<>( Objects.requireNonNull( e.getFieldError() ).getDefaultMessage(), HttpStatus.BAD_REQUEST );
-    }
 }
