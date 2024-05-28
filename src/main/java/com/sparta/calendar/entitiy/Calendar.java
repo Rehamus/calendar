@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -34,6 +37,11 @@ public class Calendar extends DayStamp {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "calendar_id")
+    private List<Reply> replylist =  new ArrayList<>();
+
+
     public Calendar(CalendarRequestDto requestDto) {
         this.todo = requestDto.getTodo();
         this.title = requestDto.getTitle();
@@ -41,6 +49,7 @@ public class Calendar extends DayStamp {
         this.manager = requestDto.getManager();
         this.password = requestDto.getPassword();
     }
+
 
     public void update(CalendarRequestDto requestDto) {
         this.title = requestDto.getTitle();

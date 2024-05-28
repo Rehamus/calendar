@@ -5,36 +5,24 @@ import com.sparta.calendar.dto.CalendarResponseDto;
 import com.sparta.calendar.entitiy.Calendar;
 import com.sparta.calendar.repository.CalendarRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CalendarService {
 
-
-
     private final CalendarRepository calendarRepository;
-
-    public CalendarService(CalendarRepository calendarRepository) {
-        this.calendarRepository = calendarRepository;
-
-
-    }
 
 
     // 생성
     @Transactional
     public CalendarResponseDto createCalendar(CalendarRequestDto requestDto) {
-
-        String email ="^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
         Calendar calendar = new Calendar(requestDto);
-        if(requestDto.getManager().matches(email)) {
-            Calendar saveCalendar = calendarRepository.save(calendar);
-            return new CalendarResponseDto( saveCalendar);
-        }else{
-            throw new IllegalArgumentException("담당자가 이메일 형식이 아닙니다.");
-        }
+        Calendar saveCalendar = calendarRepository.save(calendar);
+        return new CalendarResponseDto( saveCalendar);
     }
 
     // 전채확인
@@ -79,7 +67,7 @@ public class CalendarService {
 
 
     // 일정찾기
-    private Calendar findCalendarTodo(String todo) {
+    public Calendar findCalendarTodo(String todo) {
         Calendar calendar = calendarRepository.findByTodo(todo);
         if (calendar == null) {
             throw new IllegalArgumentException( todo + "라는 일정은 없습니다.");

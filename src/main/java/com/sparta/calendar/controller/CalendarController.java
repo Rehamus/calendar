@@ -31,7 +31,7 @@ public class CalendarController {
         @Parameter(name = "manager",description = "담당자"),
         @Parameter(name = "password",description = "비밀번호")
     })
-    public CalendarResponseDto createCalendar(@Valid @RequestBody CalendarRequestDto requestDto) {
+    public CalendarResponseDto createCalendar( @RequestBody @Valid  CalendarRequestDto requestDto) {
         return calendarService.createCalendar(requestDto);
     }
 
@@ -56,7 +56,7 @@ public class CalendarController {
             @Parameter(name = "manager",description = "담당자"),
             @Parameter(name = "password",description = "비밀번호"),
     })
-    public String updateCalendar(@PathVariable String todo, @RequestBody CalendarRequestDto requestDto) {
+    public String updateCalendar(@PathVariable String todo, @RequestBody @Valid CalendarRequestDto requestDto) {
         return calendarService.updateCalendar(todo,requestDto);
     }
 
