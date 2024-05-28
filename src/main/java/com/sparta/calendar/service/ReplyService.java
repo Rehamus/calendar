@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReplyService {
 
-    private final CalendarRepository calendarRepository;
+
     private final ReplyRepository replyRepository;
     private final CalendarService calendarService;
 
@@ -75,10 +75,8 @@ public class ReplyService {
             throw new IllegalArgumentException( "해당 댓글이 없습니다.");
         }
 
-        ReplyResponseDto replyResponseDto = responseDtoList.get(0);
-        Reply reply = replyRepository.findById( reply_id )
+        return replyRepository.findById( reply_id )
                 .orElseThrow(() -> new IllegalArgumentException("해당 ID의 댓글이 존재하지 않습니다."));
-        return reply;
     }
 
 

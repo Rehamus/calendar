@@ -1,10 +1,7 @@
 package com.sparta.calendar.dto;
 
-import com.sparta.calendar.entitiy.Reply;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor

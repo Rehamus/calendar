@@ -3,7 +3,6 @@ package com.sparta.calendar.controller;
 
 import com.sparta.calendar.dto.ReplyRequestDto;
 import com.sparta.calendar.dto.ReplyResponseDto;
-import com.sparta.calendar.entitiy.Reply;
 import com.sparta.calendar.service.ReplyService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
