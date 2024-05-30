@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Setter
 @Getter
 @Entity
@@ -31,6 +34,15 @@ public class User extends DayStamp {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
+    private String refreshToken;
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "user_id")
+    private List<Reply> replylist =  new ArrayList<>();
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "user_id")
+    private List<Calendar> Calendarlist =  new ArrayList<>();
 
     public User(String nickname, String username, String password, UserRoleEnum roleEnum) {
         this.nickname = nickname;

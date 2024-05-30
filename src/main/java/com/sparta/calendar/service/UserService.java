@@ -1,14 +1,16 @@
 package com.sparta.calendar.service;
 
 import com.sparta.calendar.dto.UserLoginRequestDto;
-import com.sparta.calendar.dto.UserRequestDto;
+import com.sparta.calendar.dto.UserSignRequestDto;
 import com.sparta.calendar.entitiy.User;
 import com.sparta.calendar.entitiy.UserRoleEnum;
 import com.sparta.calendar.jwt.JwtUtil;
 import com.sparta.calendar.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -21,10 +23,11 @@ public class UserService {
     private final String ADMIN = "admin";
     private final JwtUtil jwtUtil;
 
-    public void sign(UserRequestDto userRequestDto) {
-        String username = userRequestDto.getUsername();
-        String nickname = userRequestDto.getNickname();
-        String password = userRequestDto.getPassword();
+    //회원가입
+    public String sign(UserSignRequestDto usersignRequestDto, HttpServletResponse response) {
+        String username = usersignRequestDto.getUsername();
+        String nickname = usersignRequestDto.getNickname();
+        String password = usersignRequestDto.getPassword();
 
         Optional<User> Usernicknamecheck = userRepository.findByNickname( nickname );
         if(Usernicknamecheck.isPresent()) {
@@ -37,18 +40,26 @@ public class UserService {
         }
 
         UserRoleEnum roleEnum = UserRoleEnum.USER;
-        if(userRequestDto.isAdmin()){
-            if(!ADMIN.equals(userRequestDto.getAdmincheck())) {
+        if(usersignRequestDto.isAdmin()){
+            if(!ADMIN.equals( usersignRequestDto.getAdmincheck())) {
                 throw new IllegalArgumentException("관리자 암호가 아니넹?");
             }
             roleEnum = UserRoleEnum.ADMIN;
         }
 
         User user = new User(nickname,username,password,roleEnum);
+
+        String Access_token = jwtUtil.createAccessToken( user.getUsername(), user.getRole() );
+        String Refresh_token = jwtUtil.createRefreshToken( user.getUsername(), user.getRole() );
+        jwtUtil.addToken( Access_token, response );
+        user.setRefreshToken(Refresh_token);
         userRepository.save(user);
+
+        return "회원 가입 완료";
     }
 
-    public void login(UserLoginRequestDto userLoginRequestDto, HttpServletResponse response) {
+    // 로그인
+    public String login(UserLoginRequestDto userLoginRequestDto, HttpServletResponse response) {
         String username = userLoginRequestDto.getUsername();
         String password = userLoginRequestDto.getPassword();
 
@@ -59,7 +70,26 @@ public class UserService {
             throw new IllegalArgumentException("회원을 찾을 수 없습니다.");
         };
 
-        String token = jwtUtil.createToken( user.getUsername(),user.getRole() );
-        jwtUtil.addToken( token,response );
+        String Access_token = jwtUtil.createAccessToken( user.getUsername(), user.getRole() );
+        jwtUtil.addToken( Access_token, response );
+
+        String Refresh_token = jwtUtil.createRefreshToken( user.getUsername(), user.getRole() );
+        user.setRefreshToken(Refresh_token);
+        userRepository.save(user);
+
+        return "로그인 완료";
     }
+
+
+    //회원 탈퇴
+    @Transactional
+    public String delete(UserLoginRequestDto userLoginRequestDto, HttpServletRequest request) {
+        User user = jwtUtil.gettokenUser( request );
+        if(!user.getPassword().equals(userLoginRequestDto.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 틀립니다.");
+        }
+        userRepository.delete(user);
+        return "삭제 완료";
+    }
+
 }

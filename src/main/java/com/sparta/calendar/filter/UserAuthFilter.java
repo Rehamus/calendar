@@ -30,13 +30,13 @@ public class UserAuthFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String uri = request.getRequestURI();
 
-        if(StringUtils.hasText(uri) && uri.startsWith("/api/user")) {
+        if(StringUtils.hasText(uri) && uri.startsWith("/api/user/login") ||uri.startsWith("/api/user/sign") ) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            String No_substring_token = jwtUtil.gettokenJwt( request);
+            String No_substring_token = jwtUtil.gettokenJwt(request);
             if(StringUtils.hasText( No_substring_token )) {
                 String token = jwtUtil.substringToken( No_substring_token );
-                if (!jwtUtil.validateToken( token )) {
+                if (!jwtUtil.validateToken( token,response )) {
                     sendErrorResponse( response,400,"토큰이 유효하지 않습니다.");
                 }
                 Claims token_user = jwtUtil.parseToken( token );
@@ -47,11 +47,11 @@ public class UserAuthFilter implements Filter {
                 servletRequest.setAttribute( "username",user );
                 filterChain.doFilter(servletRequest, servletResponse);
             }else {
-                sendErrorResponse( response,400,"토큰이 유효하지 않습니다.");return;
+                sendErrorResponse( response,400,"토큰이 유효하지 않습니다.");
             }
         }
     }
-    private void sendErrorResponse(HttpServletResponse response, int statusCode, String message) throws IOException {
+    public void sendErrorResponse(HttpServletResponse response, int statusCode, String message) throws IOException {
         response.setStatus(statusCode);
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");

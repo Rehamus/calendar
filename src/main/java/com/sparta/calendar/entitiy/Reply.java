@@ -20,19 +20,23 @@ public class Reply extends DayStamp {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "reply_username")
+    @Column(name = "username")
     private String reply_username;
 
-    @Column(name = "reply_content")
+    @Column(name = "content")
     private String reply_content;
 
     @ManyToOne
     @JoinColumn(name = "calendar_id" ,insertable = false, updatable = false)
     private Calendar calendar;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id" ,insertable = false, updatable = false)
+    private User user;
 
-    public Reply(ReplyRequestDto replydto) {
-        this.reply_username = replydto.getReply_username();
+
+    public Reply(ReplyRequestDto replydto , User user) {
+        this.reply_username = user.getUsername();
         this.reply_content = replydto.getReply_content();
     }
 

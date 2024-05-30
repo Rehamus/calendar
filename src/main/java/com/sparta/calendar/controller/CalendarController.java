@@ -6,6 +6,7 @@ import com.sparta.calendar.service.CalendarService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,13 +29,10 @@ public class CalendarController {
         @Parameter(name = "todo",description = "일정"),
         @Parameter(name = "title",description = "일정 제목"),
         @Parameter(name = "contents",description = "일정 내용"),
-        @Parameter(name = "manager",description = "담당자"),
-        @Parameter(name = "password",description = "비밀번호")
     })
-    public CalendarResponseDto createCalendar( @RequestBody @Valid  CalendarRequestDto requestDto) {
-        return calendarService.createCalendar(requestDto);
+    public CalendarResponseDto createCalendar(HttpServletRequest request, @RequestBody @Valid  CalendarRequestDto requestDto) {
+        return calendarService.createCalendar(request,requestDto);
     }
-
 
     @GetMapping("days")
     @Operation(summary = "일정 전체 확인")
@@ -52,21 +50,16 @@ public class CalendarController {
     @Operation(summary = "일정 수정")
     @Parameters({
             @Parameter(name = "title",description = "일정 제목"),
-            @Parameter(name = "contents",description = "일정 내용"),
-            @Parameter(name = "manager",description = "담당자"),
-            @Parameter(name = "password",description = "비밀번호"),
+            @Parameter(name = "contents",description = "일정 내용")
     })
-    public String updateCalendar(@PathVariable String todo, @RequestBody @Valid CalendarRequestDto requestDto) {
-        return calendarService.updateCalendar(todo,requestDto);
+    public String updateCalendar(HttpServletRequest request ,@PathVariable String todo, @RequestBody @Valid CalendarRequestDto requestDto) {
+        return calendarService.updateCalendar(request,todo,requestDto);
     }
 
     @Operation(summary = "일정 삭제")
     @DeleteMapping("days/{todo}")
-    @Parameters({
-            @Parameter(name = "password",description = "비밀번호"),
-    })
-    public String deleteCalendar(@PathVariable String todo, @RequestBody Map<String,String> password){
-        return calendarService.deleteCalendar(todo,password.get( "password" ));
+    public String deleteCalendar(HttpServletRequest request ,@PathVariable String todo){
+        return calendarService.deleteCalendar(request,todo);
     }
 
 }
