@@ -10,7 +10,6 @@ import lombok.NonNull;
 @AllArgsConstructor
 public class CalendarRequestDto {
 
-
     @Size(min = 1, max = 200 )
     private String todo;
 

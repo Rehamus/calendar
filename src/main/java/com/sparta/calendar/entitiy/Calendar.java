@@ -39,6 +39,9 @@ public class Calendar extends DayStamp {
     @JoinColumn(name = "user_id" ,insertable = false, updatable = false)
     private User user;
 
+    @OneToOne(mappedBy = "calendar", cascade = CascadeType.ALL)
+    private CalendarPicture calendarPicture;
+
     public Calendar(CalendarRequestDto requestDto ,User user) {
         this.todo = requestDto.getTodo();
         this.username = user.getUsername();
@@ -46,6 +49,13 @@ public class Calendar extends DayStamp {
         this.contents = requestDto.getContents();
     }
 
+    public Calendar(CalendarRequestDto requestDto, User user, CalendarPicture calendarPicture) {
+        this.todo = requestDto.getTodo();
+        this.username = user.getUsername();
+        this.title = requestDto.getTitle();
+        this.contents = requestDto.getContents();
+        this.calendarPicture = calendarPicture;
+    }
 
     public void update(CalendarRequestDto requestDto) {
         this.title = requestDto.getTitle();

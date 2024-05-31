@@ -9,4 +9,6 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long> {
 
     List<Calendar> findAllByOrderByCreatedDesc();
     Calendar findByTodo(String todo);
+
+    boolean existsByTodo(String todo);
 }

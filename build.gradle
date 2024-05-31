@@ -27,7 +27,6 @@ dependencies {
     // MySQL
     runtimeOnly 'com.mysql:mysql-connector-j'
     //Mockito
-
     testImplementation 'org.mockito:mockito-core:5.8.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.mockito:mockito-junit-jupiter'
