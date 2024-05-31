@@ -7,9 +7,11 @@
 ![제목 없음-1](https://github.com/Rehamus/calendar/assets/161007461/7f4b7699-a03d-4937-bf4a-3ef956e83e2f)
 
 유저 관리 API
+
 ![유저](https://github.com/Rehamus/calendar/assets/161007461/ac25c436-8825-45e7-b47e-f83be74aa1c2)
 
 댓글 관리 API
+
 ![제목 없음-3](https://github.com/Rehamus/calendar/assets/161007461/5fc75ec8-a0b7-478a-89a6-f6016726bb85)
 
 # ERD
