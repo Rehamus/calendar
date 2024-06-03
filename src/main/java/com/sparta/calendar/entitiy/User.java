@@ -1,20 +1,17 @@
 package com.sparta.calendar.entitiy;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Setter
+
 @Getter
 @Entity
 @Table(name = "calendar_users")
 @NoArgsConstructor
-@AllArgsConstructor
 public class User extends DayStamp {
 
     @Id

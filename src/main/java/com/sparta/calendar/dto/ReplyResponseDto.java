@@ -2,13 +2,11 @@ package com.sparta.calendar.dto;
 
 import com.sparta.calendar.entitiy.Reply;
 import com.sparta.calendar.entitiy.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@AllArgsConstructor
 public class ReplyResponseDto {
     private Long id;
     private String reply_username;

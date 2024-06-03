@@ -2,11 +2,9 @@ package com.sparta.calendar.dto;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
-import lombok.Setter;
 
 
 @Getter
-@Setter
 public class UserSignRequestDto {
 
     private String nickname;

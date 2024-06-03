@@ -2,17 +2,16 @@ package com.sparta.calendar.entitiy;
 
 import com.sparta.calendar.dto.CalendarPictureRequestDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "calendarPicture")
 @NoArgsConstructor
-@AllArgsConstructor
 public class CalendarPicture extends DayStamp {
 
     @Id
@@ -33,5 +32,20 @@ public class CalendarPicture extends DayStamp {
 
     public CalendarPicture(CalendarPictureRequestDto calendarPictureRequestDto) {
         this.data = calendarPictureRequestDto.getData().getBytes();
+    }
+
+    public void setCalendarPicture(MultipartFile picture) {
+        try {
+            this.data = picture.getBytes();
+            this.size = (int) picture.getSize();
+            this.extension = picture.getOriginalFilename();
+            this.picturename = picture.getOriginalFilename();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
     }
 }

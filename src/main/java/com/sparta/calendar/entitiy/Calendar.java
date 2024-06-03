@@ -2,20 +2,16 @@ package com.sparta.calendar.entitiy;
 
 import com.sparta.calendar.dto.CalendarRequestDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "calendar")
 @NoArgsConstructor
-@AllArgsConstructor
 public class Calendar extends DayStamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,5 +56,9 @@ public class Calendar extends DayStamp {
     public void update(CalendarRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
+    }
+
+    public void setCalendarPicture(CalendarPicture calendarPicture) {
+        this.calendarPicture = calendarPicture;
     }
 }

@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -36,21 +35,22 @@ public class JwtUtil {
     public static final long REFRESH_TOKEN_TIME = 7*24*60*90*1000L;
     private final UserRepository userRepository;
 
-    @Value("${jwt.secret.key}")
-    private String jwtKey;
+
+    private final JwtConfig jwtConfig;
     private Key key;
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
     public static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
 
-    public JwtUtil(UserRepository userRepository) {
+    public JwtUtil(UserRepository userRepository, JwtConfig jwtConfig) {
         this.userRepository = userRepository;
+        this.jwtConfig = jwtConfig;
     }
 
     //키값 암호화
     @PostConstruct
     public void init() {
-        byte[] keyBytes = Base64.getDecoder().decode( jwtKey);
+        byte[] keyBytes = Base64.getDecoder().decode(jwtConfig.getJwtKey() );
         key = Keys.hmacShaKeyFor( keyBytes );
 
     }

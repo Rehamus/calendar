@@ -7,7 +7,6 @@ import com.sparta.calendar.entitiy.Calendar;
 import com.sparta.calendar.entitiy.Reply;
 import com.sparta.calendar.entitiy.User;
 import com.sparta.calendar.jwt.JwtUtil;
-import com.sparta.calendar.repository.CalendarRepository;
 import com.sparta.calendar.repository.ReplyRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
